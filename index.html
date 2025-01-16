@@ -112,6 +112,7 @@
             const hardware = parseFloat(document.getElementById('hardware').value) || 0;
             const supplies = parseFloat(document.getElementById('supplies').value) || 0;
 
+            // Calculations
             const foodRevenue = foodCustomers * foodSpend * days;
             const beverageRevenue = beverageCustomers * beverageSpend * days;
             const totalRevenue = foodRevenue + beverageRevenue;
@@ -126,6 +127,7 @@
                 \nProfit: $${profit.toFixed(2)}
             `;
 
+            // Update charts with correct data
             renderIncomeChart(foodRevenue, beverageRevenue);
             renderExpensesChart(personal, rent, software, hardware, supplies);
         }
