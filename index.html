@@ -53,8 +53,8 @@
             margin-top: 20px;
         }
         canvas {
-            width: 48%;
-            height: 250px;
+            width: 45% !important;
+            height: 250px !important;
         }
     </style>
 </head>
@@ -94,10 +94,9 @@
     <button onclick="calculateDetailedRevenue()">Calculate Revenue</button>
 
     <div id="result" class="result"></div>
-    
     <div class="charts-container">
-        <canvas id="incomeChart" width="400" height="250"></canvas>
-        <canvas id="expensesChart" width="400" height="250"></canvas>
+        <canvas id="incomeChart"></canvas>
+        <canvas id="expensesChart"></canvas>
     </div>
 
     <script>
