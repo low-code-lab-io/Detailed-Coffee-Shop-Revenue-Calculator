@@ -47,8 +47,14 @@
             font-size: 1.2rem;
             font-weight: bold;
         }
-        canvas {
+        .charts-container {
+            display: flex;
+            justify-content: space-between;
             margin-top: 20px;
+        }
+        canvas {
+            width: 48%;
+            height: 250px;
         }
     </style>
 </head>
@@ -88,8 +94,11 @@
     <button onclick="calculateDetailedRevenue()">Calculate Revenue</button>
 
     <div id="result" class="result"></div>
-    <canvas id="incomeChart" width="400" height="200"></canvas>
-    <canvas id="expensesChart" width="400" height="200"></canvas>
+    
+    <div class="charts-container">
+        <canvas id="incomeChart" width="400" height="250"></canvas>
+        <canvas id="expensesChart" width="400" height="250"></canvas>
+    </div>
 
     <script>
         function calculateDetailedRevenue() {
