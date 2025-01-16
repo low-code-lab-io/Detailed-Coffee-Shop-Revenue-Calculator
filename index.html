@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detailed Coffee Shop Revenue Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #5d4037;
+        }
+        label {
+            font-size: 1rem;
+            margin-top: 10px;
+            display: block;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #795548;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5d4037;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detailed Coffee Shop Revenue Calculator</h1>
+
+    <label for="foodCustomers">Number of Food Customers Per Day:</label>
+    <input type="number" id="foodCustomers" placeholder="Enter number of food customers" min="0">
+
+    <label for="foodSpend">Average Spend on Food Per Customer ($):</label>
+    <input type="number" id="foodSpend" placeholder="Enter average spend on food" step="0.01" min="0">
+
+    <label for="beverageCustomers">Number of Beverage Customers Per Day:</label>
+    <input type="number" id="beverageCustomers" placeholder="Enter number of beverage customers" min="0">
+
+    <label for="beverageSpend">Average Spend on Beverages Per Customer ($):</label>
+    <input type="number" id="beverageSpend" placeholder="Enter average spend on beverages" step="0.01" min="0">
+
+    <label for="days">Operating Days Per Month:</label>
+    <input type="number" id="days" placeholder="Enter number of operating days" min="1" max="31">
+
+    <label for="personal">Monthly Personal Expenses ($):</label>
+    <input type="number" id="personal" placeholder="Enter personal expenses" min="0">
+
+    <label for="rent">Monthly Rent ($):</label>
+    <input type="number" id="rent" placeholder="Enter rent expenses" min="0">
+
+    <label for="software">Monthly Software Costs ($):</label>
+    <input type="number" id="software" placeholder="Enter software expenses" min="0">
+
+    <label for="hardware">Monthly Hardware Costs ($):</label>
+    <input type="number" id="hardware" placeholder="Enter hardware expenses" min="0">
+
+    <label for="supplies">Monthly Supplies Costs ($):</label>
+    <input type="number" id="supplies" placeholder="Enter supplies expenses" min="0">
+
+    <button onclick="calculateDetailedRevenue()">Calculate Revenue</button>
+
+    <div id="result" class="result"></div>
+    <canvas id="incomeChart" width="400" height="200"></canvas>
+    <canvas id="expensesChart" width="400" height="200"></canvas>
+
+    <script>
+        function calculateDetailedRevenue() {
+            const foodCustomers = parseFloat(document.getElementById('foodCustomers').value) || 0;
+            const foodSpend = parseFloat(document.getElementById('foodSpend').value) || 0;
+            const beverageCustomers = parseFloat(document.getElementById('beverageCustomers').value) || 0;
+            const beverageSpend = parseFloat(document.getElementById('beverageSpend').value) || 0;
+            const days = parseInt(document.getElementById('days').value) || 0;
+            const personal = parseFloat(document.getElementById('personal').value) || 0;
+            const rent = parseFloat(document.getElementById('rent').value) || 0;
+            const software = parseFloat(document.getElementById('software').value) || 0;
+            const hardware = parseFloat(document.getElementById('hardware').value) || 0;
+            const supplies = parseFloat(document.getElementById('supplies').value) || 0;
+
+            const foodRevenue = foodCustomers * foodSpend * days;
+            const beverageRevenue = beverageCustomers * beverageSpend * days;
+            const totalRevenue = foodRevenue + beverageRevenue;
+            const totalExpenses = personal + rent + software + hardware + supplies;
+            const profit = totalRevenue - totalExpenses;
+
+            document.getElementById('result').innerText = `
+                Total Monthly Revenue: $${totalRevenue.toFixed(2)}
+                \nTotal Food Revenue: $${foodRevenue.toFixed(2)}
+                \nTotal Beverage Revenue: $${beverageRevenue.toFixed(2)}
+                \nTotal Expenses: $${totalExpenses.toFixed(2)}
+                \nProfit: $${profit.toFixed(2)}
+            `;
+
+            renderIncomeChart(foodRevenue, beverageRevenue);
+            renderExpensesChart(personal, rent, software, hardware, supplies);
+        }
+
+        function renderIncomeChart(foodRevenue, beverageRevenue) {
+            const ctx = document.getElementById('incomeChart').getContext('2d');
+            const incomeData = {
+                labels: ['Food Revenue', 'Beverage Revenue'],
+                datasets: [{
+                    label: 'Income Breakdown',
+                    data: [foodRevenue, beverageRevenue],
+                    backgroundColor: ['#FF6384', '#36A2EB'],
+                    hoverBackgroundColor: ['#FF4C7A', '#2D91D6']
+                }]
+            };
+            new Chart(ctx, {
+                type: 'pie',
+                data: incomeData,
+            });
+        }
+
+        function renderExpensesChart(personal, rent, software, hardware, supplies) {
+            const ctx = document.getElementById('expensesChart').getContext('2d');
+            const expensesData = {
+                labels: ['Personal', 'Rent', 'Software', 'Hardware', 'Supplies'],
+                datasets: [{
+                    label: 'Expenses Breakdown',
+                    data: [personal, rent, software, hardware, supplies],
+                    backgroundColor: ['#FFCE56', '#FF6384', '#36A2EB', '#4CAF50', '#FFA500'],
+                    hoverBackgroundColor: ['#FFC340', '#FF4C7A', '#2D91D6', '#388E3C', '#FF9200']
+                }]
+            };
+            new Chart(ctx, {
+                type: 'pie',
+                data: expensesData,
+            });
+        }
+    </script>
+</body>
+</html>
